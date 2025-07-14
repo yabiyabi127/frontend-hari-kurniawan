@@ -6,7 +6,7 @@ Ini adalah Tes dari PT. Amar Mulia Bersama yaitu aplikasi sederhana Form Barang 
 
 Klik gambar di bawah untuk melihat versi penuh:
 
-[![Cuplikan](https://drive.google.com/file/d/16N3DzqOEeoASXpQm06yiZ4mjR5LUGMaR/view?usp=sharing)
+![Preview](https://drive.google.com/uc?export=view&id=16N3DzqOEeoASXpQm06yiZ4mjR5LUGMaR)
 
 ## 🚀 Fitur
 
