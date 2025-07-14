@@ -27,8 +27,8 @@ function AutoForm(): React.ReactElement {
   const [selectedNegara, setSelectedNegara] = useState('');
   const [selectedPelabuhan, setSelectedPelabuhan] = useState('');
   const [selectedBarang, setSelectedBarang] = useState('');
-  const [customDiscount, setCustomDiscount] = useState<number | undefined>(undefined);
-  const [customHarga, setCustomHarga] = useState<number | undefined>(undefined);
+  const [customDiscount, setCustomDiscount] = useState<string | number | undefined>("");
+  const [customHarga, setCustomHarga] = useState<string | number | undefined>("");
 
   const queryClient = useQueryClient();
 
@@ -57,7 +57,8 @@ function AutoForm(): React.ReactElement {
   const description = selected?.description ?? '';
   const discount = customDiscount ?? selected?.diskon ?? 0;
   const harga = customHarga ?? selected?.harga ?? 0;
-  const total = useMemo(() => harga * (discount / 100), [harga, discount]);
+   // const total = useMemo(() => harga - (harga * discount) / 100, [harga, discount]);
+  const total = useMemo(() => Number(harga) * (Number(discount) / 100), [harga, discount]);
 
   return (
     <div className="p-6 max-w-xl mx-auto space-y-6 bg-gray-900 text-white rounded-xl shadow-lg">
@@ -137,24 +138,36 @@ function AutoForm(): React.ReactElement {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="discount" className="text-sm">DISCOUNT</label>
-          <input
-            id="discount"
-            type="number"
-            className="w-full p-2 mt-1 rounded bg-gray-800 border border-gray-700"
-            value={discount}
-            onChange={(e) => setCustomDiscount(Number(e.target.value))}
-            disabled={!selected}
-          />
+          <div className="relative">
+            <input
+              id="discount"
+              type="text"
+              className="w-full p-2 mt-1 pr-8 rounded bg-gray-800 border border-gray-700"
+              value={discount}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9.]/g, '');
+                setCustomDiscount(Number(value));
+              }}
+              maxLength={3}
+              disabled={!selected}
+            />
+            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none text-sm font-semibold">
+              %
+            </span>
+          </div>
         </div>
 
         <div>
           <label htmlFor="harga" className="text-sm">HARGA</label>
           <input
             id="harga"
-            type="number"
+            type="text"
             className="w-full p-2 mt-1 rounded bg-gray-800 border border-gray-700"
             value={harga}
-            onChange={(e) => setCustomHarga(Number(e.target.value))}
+            onChange={(e) => {
+              const value = e.target.value.replace(/[^0-9.]/g, '');
+              setCustomHarga(Number(value));
+            }}
             disabled={!selected}
           />
         </div>
